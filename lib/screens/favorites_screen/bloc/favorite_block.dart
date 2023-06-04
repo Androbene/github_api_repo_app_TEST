@@ -9,10 +9,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteScreenState> {
     on<FavoriteEmptyEvent>(_onFavourEmptyEvent);
     on<FavoriteLoadedEvent>(_onFavourLoadedEvent);
     on<FavoriteSelectedEvent>(_onFavourSelectedEvent);
-    _loadFromDb();
+    _loadFromStorage();
   }
 
-  Future _loadFromDb() async {
+  Future _loadFromStorage() async {
     final allFav = await FavoritesRepository().getAll();
     final mappedFav = allFav.map((e) => GitRepo(e.url, e.name, true)).toList();
     if (allFav.isEmpty) {
@@ -50,6 +50,12 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteScreenState> {
     } else {
       FavoritesRepository().insert(state.repos[event.index]);
     }
-    await _loadFromDb();
+    await _loadFromStorage();
+  }
+
+  @override
+  Future<void> close() {
+    FavoritesRepository().closeRepo();
+    return super.close();
   }
 }

@@ -1,15 +1,17 @@
 class Strings {
   Strings._();
 
-  static String searchTitle = "Github repos list";
-  static String searchHistory = "Search History";
-  static String whatWeHaveFound = "What we have found";
-  static String emptyHistory = "You have empty history.\nClick on search to start journey!";
-  static String nothingWasFound = "Nothing was found for your search.\nPlease check the spelling";
-  static String gitServerError = "Git Server Error";
-  static String noInternet = "No Internet Connection";
-  static String search = "Search";
+  static const appName = "Search App";
 
-  static String favoriteTitle = "Favorite repos list";
-  static String noFavorites = "You have no favorites.\nClick on star while searching to add first favorite";
+  static const searchTitle = "Github repos list";
+  static const searchHistory = "Search History";
+  static const whatWeHaveFound = "What we have found";
+  static const emptyHistory = "You have empty history.\nClick on search to start journey!";
+  static const nothingWasFound = "Nothing was found for your search.\nPlease check the spelling";
+  static const gitServerError = "Git Server Error";
+  static const noInternet = "No Internet Connection";
+  static const search = "Search";
+
+  static const favoriteTitle = "Favorite repos list";
+  static const noFavorites = "You have no favorites.\nClick on star while searching to add first favorite";
 }

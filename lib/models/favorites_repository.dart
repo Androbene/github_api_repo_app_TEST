@@ -1,4 +1,4 @@
-import 'package:github_api_repo_app/models/fav_repo_model.dart';
+import 'package:github_api_repo_app/models/fav_repo.dart';
 import 'package:github_api_repo_app/models/git_repo.dart';
 import 'package:hive/hive.dart';
 
@@ -7,15 +7,11 @@ class FavoritesRepository {
 
   factory FavoritesRepository() => _singleton;
 
-  FavoritesRepository._internal();
-
-  static const _name = "FavRepoBoxName";
-
-  Future openRepo() async {
-    await Hive.openBox<FavRepo>(_name);
+  FavoritesRepository._internal() {
+    Hive.registerAdapter(FavRepoAdapter());
   }
 
-  void closeRepo() => Hive.box<FavRepo>(_name).close();
+  static const _name = "FavRepoBoxName";
 
   Future<List<FavRepo>> getAll() async =>
       (await Hive.openBox<FavRepo>(_name)).values.toList();
@@ -33,4 +29,6 @@ class FavoritesRepository {
           .toList()
           .map((e) => e.url)
           .contains(repo.url);
+
+  void closeRepo() => Hive.box<FavRepo>(_name).close();
 }

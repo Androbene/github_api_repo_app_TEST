@@ -66,14 +66,14 @@ class SearchScreen extends StatelessWidget {
     switch (_bloc.state.currState) {
       case CurrentState.emptyHistory:
       case CurrentState.fullHistory:
-        return Text(
+        return const Text(
           Strings.searchHistory,
           style: AppStyles.textHeaderBlue,
           textAlign: TextAlign.left,
         );
       case CurrentState.negativeRes:
       case CurrentState.positiveRes:
-        return Text(
+        return const Text(
           Strings.whatWeHaveFound,
           style: AppStyles.textHeaderBlue,
           textAlign: TextAlign.left,
@@ -86,7 +86,7 @@ class SearchScreen extends StatelessWidget {
   Widget _buildResultArea() {
     switch (_bloc.state.currState) {
       case CurrentState.emptyHistory:
-        return Text(
+        return const Text(
           Strings.emptyHistory,
           textAlign: TextAlign.center,
           style: AppStyles.textHolder,
@@ -105,7 +105,7 @@ class SearchScreen extends StatelessWidget {
           ),
         );
       case CurrentState.negativeRes:
-        return Text(
+        return const Text(
           Strings.nothingWasFound,
           textAlign: TextAlign.center,
           style: AppStyles.textHolder,
@@ -184,7 +184,7 @@ class SearchScreen extends StatelessWidget {
       title: Stack(
         alignment: Alignment.center,
         children: [
-          Center(
+          const Center(
             child: Text(
               Strings.searchTitle,
               textAlign: TextAlign.center,

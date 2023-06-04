@@ -25,9 +25,3 @@ class FavRepoAdapter extends TypeAdapter<FavRepo> {
     writer.writeString(obj.name);
   }
 }
-//
-// class RepoBox { // constants
-//   RepoBox._();
-//   static const name = "FavRepoBoxName";
-//   // static const url = "RepoBoxUrlKey";
-// }

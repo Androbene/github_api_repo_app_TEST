@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:github_api_repo_app/themes/styles.dart';
 import '../constants/route_names.dart';
+import '../constants/strings.dart';
 import '../themes/app_colors.dart';
 import '../themes/overlays.dart';
 
@@ -28,7 +29,7 @@ class SplashScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: 16),
                 child: Text(
-                  "Search App",
+                  Strings.appName,
                   style: AppStyles.textSplash,
                 ),
               ),
@@ -44,7 +45,7 @@ class SplashScreen extends StatelessWidget {
   }
 
   Future launchWhenInitialized(BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     Navigator.pushReplacementNamed(context, Routes.search);
   }
 }

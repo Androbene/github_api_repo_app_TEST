@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:github_api_repo_app/constants/app_ic.dart';
 
 import '../../constants/strings.dart';
 import '../../themes/app_colors.dart';
@@ -42,14 +43,17 @@ class FavoriteScreen extends StatelessWidget {
           ),
         );
       case FavourCurrentState.empty:
-        return Center(
+        return const Center(
             child: Text(
           Strings.noFavorites,
           textAlign: TextAlign.center,
           style: AppStyles.textHolder,
         ));
       case FavourCurrentState.full:
-        return _buildFullList();
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+          child: _buildFullList(),
+        );
       default:
         return const Text('');
     }
@@ -78,12 +82,8 @@ class FavoriteScreen extends StatelessWidget {
                   _bloc.add(FavoriteSelectedEvent(index: index));
                 },
                 child: isFavourite
-                    ? SvgPicture.asset(
-                        'assets/icons/ic_star_favourite.svg',
-                      )
-                    : SvgPicture.asset(
-                        'assets/icons/ic_star_not_favourite.svg',
-                      ),
+                    ? SvgPicture.asset(AppIc.favStar)
+                    : SvgPicture.asset(AppIc.favStarNot),
               ),
             ));
       },
@@ -98,10 +98,8 @@ class FavoriteScreen extends StatelessWidget {
       shadowColor: AppColors.layer1,
       leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: SvgPicture.asset(
-            'assets/icons/ic_back.svg',
-          )),
-      title: Center(
+          icon: SvgPicture.asset(AppIc.back)),
+      title: const Center(
         child: Text(
           Strings.favoriteTitle,
           textAlign: TextAlign.center,
