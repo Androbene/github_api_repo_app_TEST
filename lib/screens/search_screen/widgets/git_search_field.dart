@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:github_api_repo_app/constants/app_ic.dart';
 
 import '../../../themes/app_colors.dart';
 import '../../../constants/strings.dart';
@@ -25,6 +26,8 @@ class GitSearchField extends StatefulWidget {
 class GitSearchFieldState extends State<GitSearchField> {
   final FocusNode _focusNode = FocusNode();
   final _inputController = TextEditingController();
+
+  bool get _isNotEmpty => _inputController.text.isNotEmpty;
 
   @override
   void initState() {
@@ -53,9 +56,7 @@ class GitSearchFieldState extends State<GitSearchField> {
           onTap: () => widget._onSearchCallback(_inputController.text),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SvgPicture.asset(
-              'assets/icons/ic_search.svg',
-            ),
+            child: SvgPicture.asset(AppIc.search),
           ),
         ),
         suffixIcon: InkWell(
@@ -65,12 +66,10 @@ class GitSearchFieldState extends State<GitSearchField> {
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SvgPicture.asset(
-              'assets/icons/ic_close.svg',
-            ),
+            child: SvgPicture.asset(AppIc.clear),
           ),
         ),
-        labelText: _focusNode.hasFocus ? "" : Strings.search,
+        labelText: _focusNode.hasFocus || _isNotEmpty ? "" : Strings.search,
         fillColor: _focusNode.hasFocus ? AppColors.secondary : AppColors.layer1,
         filled: true,
         enabledBorder: _buildBorder(),
