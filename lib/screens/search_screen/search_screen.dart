@@ -176,6 +176,7 @@ class SearchScreen extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      titleSpacing: 0,
       automaticallyImplyLeading: false,
       surfaceTintColor: AppColors.main,
       backgroundColor: AppColors.main,
@@ -184,29 +185,33 @@ class SearchScreen extends StatelessWidget {
       title: Stack(
         alignment: Alignment.center,
         children: [
-          const Center(
-            child: Text(
-              Strings.searchTitle,
-              textAlign: TextAlign.center,
-              style: AppStyles.textHeader,
-            ),
+          const Text(
+            Strings.searchTitle,
+            textAlign: TextAlign.center,
+            style: AppStyles.textHeader,
           ),
           Align(
             alignment: Alignment.centerRight,
-            child: SizedBox(
-              width: 52,
-              height: 52,
-              child: IconButton(
-                  onPressed: () async {
-                    await Navigator.pushNamed(context, Routes.favorite);
-                    _bloc.add(SearchRefreshEvent());
-                  },
-                  icon: SvgPicture.asset(AppIc.favourite)),
-            ),
+            child: _getFavButton(context),
           )
         ],
       ),
       systemOverlayStyle: lightStatusBar,
     );
   }
+
+  Widget _getFavButton(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: SizedBox(
+          width: 38,
+          height: 38,
+          child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () async {
+                await Navigator.pushNamed(context, Routes.favorite);
+                _bloc.add(SearchRefreshEvent());
+              },
+              icon: SvgPicture.asset(AppIc.favourite)),
+        ),
+      );
 }

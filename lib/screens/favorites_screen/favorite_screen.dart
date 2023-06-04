@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:github_api_repo_app/constants/app_ic.dart';
 
 import '../../constants/strings.dart';
 import '../../themes/app_colors.dart';
+import '../../themes/overlays.dart';
 import '../../themes/styles.dart';
 import 'bloc/favorite_block.dart';
 import 'bloc/favorite_events.dart';
@@ -59,7 +59,7 @@ class FavoriteScreen extends StatelessWidget {
     }
   }
 
-  Widget _buildFullList() {
+  ListView _buildFullList() {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: _bloc.state.repos.length,
@@ -92,25 +92,39 @@ class FavoriteScreen extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      titleSpacing: 0,
+      automaticallyImplyLeading: false,
       surfaceTintColor: AppColors.main,
       backgroundColor: AppColors.main,
       elevation: 1.5,
       shadowColor: AppColors.layer1,
-      leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: SvgPicture.asset(AppIc.back)),
-      title: const Center(
-        child: Text(
-          Strings.favoriteTitle,
-          textAlign: TextAlign.center,
-          style: AppStyles.textHeader,
-        ),
+      title: Stack(
+        alignment: Alignment.center,
+        children: [
+          const Text(
+            Strings.favoriteTitle,
+            textAlign: TextAlign.center,
+            style: AppStyles.textHeader,
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: _getBackButton(context),
+          )
+        ],
       ),
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: AppColors.main,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-      ),
+      systemOverlayStyle: lightStatusBar,
     );
   }
+
+  Widget _getBackButton(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(left: 16),
+        child: SizedBox(
+          height: 38,
+          width: 38,
+          child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () => Navigator.pop(context),
+              icon: SvgPicture.asset(AppIc.back)),
+        ),
+      );
 }
