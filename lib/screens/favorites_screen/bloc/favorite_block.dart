@@ -14,7 +14,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteScreenState> {
 
   Future _loadFromStorage() async {
     final allFav = await FavoritesRepository().getAll();
-    final mappedFav = allFav.map((e) => GitRepo(e.url, e.name, true)).toList();
+    final mappedFav = allFav.map((e) => GitRepo(e.url, e.name, true)).toList()
+      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     if (allFav.isEmpty) {
       add(FavoriteEmptyEvent());
     } else {

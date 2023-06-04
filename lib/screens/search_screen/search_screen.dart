@@ -152,7 +152,7 @@ class SearchScreen extends StatelessWidget {
   }
 
   Widget _renderHistoryList() {
-    final historyData = SearchHistoryCase().load().reversed.toList();
+    final historyData = SearchHistoryCase().load().toList();
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: historyData.length,
