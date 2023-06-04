@@ -15,6 +15,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
     on<SearchInputEvent>(_onSearchInputEvent);
     on<SearchLoadingEvent>(_onSearchLoadingEvent);
     on<SearchSelectedEvent>(_onSearchSelectedEvent);
+    on<SearchClearEvent>(_onSearchClearEvent);
     on<SearchRefreshEvent>(_onSearchRefreshEvent);
   }
 
@@ -113,6 +114,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
     } else {
       FavoritesRepository().insert(newValue);
     }
+  }
+
+  Future<void> _onSearchClearEvent(
+      SearchClearEvent event,
+      Emitter emitter,
+      ) async {
+    emitter(state.copyWith(repos: []));
   }
 
   Future<void> _onSearchRefreshEvent(

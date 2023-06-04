@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:github_api_repo_app/utils/logging.dart';
 
 import '../../../themes/app_colors.dart';
 import '../../../constants/strings.dart';
 
 class GitSearchField extends StatefulWidget {
-  final Function onFocusedCallback;
-  final Function(String) onSearchCallback;
+  final Function _onFocusedCallback;
+  final Function(String) _onSearchCallback;
+  final Function _onClearCallback;
 
   const GitSearchField({
     super.key,
-    required this.onFocusedCallback,
-    required this.onSearchCallback,
-  });
+    required Function onFocusedCallback,
+    required dynamic Function(String) onSearchCallback,
+    required Function onClearCallback,
+  })  : _onClearCallback = onClearCallback,
+        _onSearchCallback = onSearchCallback,
+        _onFocusedCallback = onFocusedCallback;
 
   @override
   GitSearchFieldState createState() => GitSearchFieldState();
@@ -28,7 +31,7 @@ class GitSearchFieldState extends State<GitSearchField> {
     super.initState();
     _focusNode.addListener(() {
       setState(() {
-        _focusNode.hasFocus ? {widget.onFocusedCallback()} : {};
+        _focusNode.hasFocus ? {widget._onFocusedCallback()} : {};
       });
     });
   }
@@ -47,7 +50,7 @@ class GitSearchFieldState extends State<GitSearchField> {
       controller: _inputController,
       decoration: InputDecoration(
         prefixIcon: InkWell(
-          onTap: () => widget.onSearchCallback(_inputController.text),
+          onTap: () => widget._onSearchCallback(_inputController.text),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SvgPicture.asset(
@@ -58,6 +61,7 @@ class GitSearchFieldState extends State<GitSearchField> {
         suffixIcon: InkWell(
           onTap: () {
             _inputController.clear();
+            widget._onClearCallback();
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -71,7 +75,6 @@ class GitSearchFieldState extends State<GitSearchField> {
         filled: true,
         enabledBorder: _buildBorder(),
         focusedBorder: _buildBorderOnFocus(),
-        // disabledBorder: _buildBorderOnFocus(),
       ),
     );
   }

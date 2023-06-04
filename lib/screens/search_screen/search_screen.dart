@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:github_api_repo_app/constants/route_names.dart';
 import 'package:github_api_repo_app/screens/search_screen/widgets/git_search_field.dart';
 import '../../../themes/app_colors.dart';
+import '../../constants/app_ic.dart';
 import '../../constants/strings.dart';
 import '../../../themes/styles.dart';
 import '../../themes/overlays.dart';
@@ -34,14 +35,16 @@ class SearchScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   GitSearchField(
-                      onFocusedCallback: () => _bloc.add(SearchInputEvent()),
-                      onSearchCallback: (String searchString) {
-                        if (_bloc.state.currState != CurrentState.loading) {
-                          SearchHistoryCase().save(searchString);
-                          _bloc.add(
-                              SearchLoadingEvent(searchString: searchString));
-                        }
-                      }),
+                    onFocusedCallback: () => _bloc.add(SearchInputEvent()),
+                    onSearchCallback: (String searchString) {
+                      if (_bloc.state.currState != CurrentState.loading) {
+                        SearchHistoryCase().save(searchString);
+                        _bloc.add(
+                            SearchLoadingEvent(searchString: searchString));
+                      }
+                    },
+                    onClearCallback: () => _bloc.add(SearchClearEvent()),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
                     child: _buildResultTitleArea(),
@@ -107,6 +110,7 @@ class SearchScreen extends StatelessWidget {
           textAlign: TextAlign.center,
           style: AppStyles.textHolder,
         );
+      case CurrentState.activeInput:
       case CurrentState.positiveRes:
         return _renderReposList();
       case CurrentState.error:
@@ -139,12 +143,8 @@ class SearchScreen extends StatelessWidget {
                   _bloc.add(SearchSelectedEvent(index: index));
                 },
                 child: isFavourite
-                    ? SvgPicture.asset(
-                        'assets/icons/ic_star_favourite.svg',
-                      )
-                    : SvgPicture.asset(
-                        'assets/icons/ic_star_not_favourite.svg',
-                      ),
+                    ? SvgPicture.asset(AppIc.favStar)
+                    : SvgPicture.asset(AppIc.favStarNot),
               ),
             ));
       },
@@ -195,16 +195,13 @@ class SearchScreen extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: SizedBox(
               width: 52,
-              height: 52
-              ,
+              height: 52,
               child: IconButton(
                   onPressed: () async {
-                    await Navigator.pushNamed(context, "favourites_screen");
+                    await Navigator.pushNamed(context, Routes.favorite);
                     _bloc.add(SearchRefreshEvent());
                   },
-                  icon: SvgPicture.asset(
-                    'assets/icons/ic_favourite.svg',
-                  )),
+                  icon: SvgPicture.asset(AppIc.favourite)),
             ),
           )
         ],

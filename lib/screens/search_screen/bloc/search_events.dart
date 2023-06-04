@@ -14,4 +14,6 @@ class SearchLoadingEvent extends SearchEvent {
   SearchLoadingEvent({required this.searchString});
 }
 
+class SearchClearEvent extends SearchEvent {}
+
 class SearchRefreshEvent extends SearchEvent {}

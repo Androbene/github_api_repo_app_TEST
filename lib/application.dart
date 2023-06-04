@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:github_api_repo_app/screens/search_screen/serch_screen.dart';
+import 'package:github_api_repo_app/screens/favorites_screen/favorite_screen.dart';
+import 'package:github_api_repo_app/screens/search_screen/search_screen.dart';
 import 'package:github_api_repo_app/screens/splash_screen.dart';
 import 'package:github_api_repo_app/themes/app_colors.dart';
 import 'constants/route_names.dart';
@@ -27,23 +28,23 @@ class GitHubApiApp extends StatelessWidget {
   Route<dynamic> _generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.search:
-        return PageRouteBuilder(
-          pageBuilder: (context, __, ___) => SearchScreen(),
-          transitionsBuilder: (context, animation, __, child) => FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-          settings: settings,
-        );
+        return _pageRouteBuilder(SearchScreen(), settings);
+      case Routes.favorite:
+        return _pageRouteBuilder(FavoriteScreen(), settings);
       default:
-        return PageRouteBuilder(
-          pageBuilder: (context, __, ___) => const SplashScreen(),
-          transitionsBuilder: (context, animation, __, child) => FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-          settings: settings,
-        );
+        return _pageRouteBuilder(const SplashScreen(), settings);
     }
+  }
+
+  PageRouteBuilder<dynamic> _pageRouteBuilder(
+      Widget target, RouteSettings settings) {
+    return PageRouteBuilder(
+      pageBuilder: (context, __, ___) => target,
+      transitionsBuilder: (context, animation, __, child) => FadeTransition(
+        opacity: animation,
+        child: child,
+      ),
+      settings: settings,
+    );
   }
 }
