@@ -49,6 +49,10 @@ class GitSearchFieldState extends State<GitSearchField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      showCursor: true,
+      readOnly: false,
+      keyboardType: TextInputType.text,
+      enableInteractiveSelection: true,
       focusNode: _focusNode,
       controller: _inputController,
       decoration: InputDecoration(

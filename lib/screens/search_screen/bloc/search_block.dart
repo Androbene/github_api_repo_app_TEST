@@ -4,11 +4,10 @@ import 'package:github_api_repo_app/screens/search_screen/bloc/search_state.dart
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../../../models/favorites_repository.dart';
+import '../../../repository/favorites_repository.dart';
 import '../../../models/git_repo.dart';
 import '../../../constants/strings.dart';
 import '../../../utils/internet.dart';
-import '../../../utils/logging.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
   SearchBloc() : super(SearchScreenState.initial()) {
@@ -49,13 +48,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
           'https://api.github.com/search/repositories?q=${event.searchString}&sort=stars&order=desc&per_page=$resultsPerPage';
       final response = await http.get(Uri.parse(request));
       if (response.statusCode == 200) {
-        /// //////////////////////////////////////////////////////////////////
         Map<String, dynamic> data = jsonDecode(response.body);
-        List<dynamic> items = data['items'];
-        lol('===================================================\n');
-        lol(response.body);
-        lol('===================================================\n');
-        final rawDataRepos = items
+        final rawDataRepos = data['items']
             .map((item) => GitRepo(
                   item['html_url'] as String,
                   item['name'] as String,
@@ -63,26 +57,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
                 ))
             .toList();
 
-        final List<GitRepo> dataReposMappedFromDb = [];
+        final List<GitRepo> dataReposMappedFromStorage = [];
         for (var raw in rawDataRepos) {
-          dataReposMappedFromDb.add(GitRepo(
+          dataReposMappedFromStorage.add(GitRepo(
             raw.url,
             raw.name,
             await FavoritesRepository().isFavourite(raw),
           ));
         }
 
-        if (dataReposMappedFromDb.isEmpty) {
+        if (dataReposMappedFromStorage.isEmpty) {
           emitter(state.copyWith(
               currState: CurrentState.negativeRes,
-              repos: dataReposMappedFromDb));
+              repos: dataReposMappedFromStorage));
         } else {
           emitter(state.copyWith(
               currState: CurrentState.positiveRes,
-              repos: dataReposMappedFromDb));
+              repos: dataReposMappedFromStorage));
         }
-
-        /// //////////////////////////////////////////////////////////////////
       } else {
         emitter(state.copyWith(
             currState: CurrentState.error,
@@ -117,9 +109,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
   }
 
   Future<void> _onSearchClearEvent(
-      SearchClearEvent event,
-      Emitter emitter,
-      ) async {
+    SearchClearEvent event,
+    Emitter emitter,
+  ) async {
     emitter(state.copyWith(repos: []));
   }
 

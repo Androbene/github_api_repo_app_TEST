@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:github_api_repo_app/models/favorites_repository.dart';
+import 'package:github_api_repo_app/repository/favorites_repository.dart';
 import 'package:github_api_repo_app/models/git_repo.dart';
 import 'favorite_events.dart';
 import 'favorite_state.dart';
