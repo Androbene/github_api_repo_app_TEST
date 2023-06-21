@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-class AppStyles {
-  AppStyles._();
-
+abstract class AppStyles {
   static const textHeader = TextStyle(
     fontSize: 16,
     fontFamily: 'Raleway',

@@ -1,6 +1,4 @@
-class AppIc{
-  AppIc._();
-
+abstract class AppIc{
   static const search = 'assets/icons/ic_search.svg';
   static const clear = 'assets/icons/ic_close.svg';
   static const favourite = 'assets/icons/ic_favourite.svg';

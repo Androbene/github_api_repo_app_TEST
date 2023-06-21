@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:github_api_repo_app/screens/favorites_screen/favorite_screen.dart';
 import 'package:github_api_repo_app/screens/search_screen/search_screen.dart';
 import 'package:github_api_repo_app/screens/splash_screen.dart';
-import 'package:github_api_repo_app/themes/app_colors.dart';
+import 'package:github_api_repo_app/themes/theme_dark.dart';
+import 'package:github_api_repo_app/themes/theme_light.dart';
 import 'constants/route_names.dart';
 
 class GitHubApiApp extends StatelessWidget {
@@ -13,13 +14,8 @@ class GitHubApiApp extends StatelessWidget {
     return MaterialApp(
       title: runtimeType.toString(),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          backgroundColor: AppColors.main,
-          canvasColor: AppColors.main,
-          primaryColor: AppColors.main,
-          fontFamily: 'Raleway'),
+      theme: createLightTheme(),
+      // darkTheme: createDarkTheme(),
       initialRoute: Routes.splash,
       onGenerateRoute: _generateRoute,
     );

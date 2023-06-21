@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
-  AppColors._();
-
+abstract class AppColors {
   static const main = Color(0xFFF9F9F9);
 
   static const layer1 = Color(0xFFF2F2F2);

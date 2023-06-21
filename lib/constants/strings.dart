@@ -1,6 +1,4 @@
-class Strings {
-  Strings._();
-
+abstract class Strings {
   static const appName = "Search App";
 
   static const searchTitle = "Github repos list";

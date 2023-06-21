@@ -6,7 +6,6 @@ import 'package:github_api_repo_app/constants/app_ic.dart';
 
 import '../../constants/strings.dart';
 import '../../themes/app_colors.dart';
-import '../../themes/overlays.dart';
 import '../../themes/styles.dart';
 import 'bloc/favorite_block.dart';
 import 'bloc/favorite_events.dart';
@@ -94,8 +93,6 @@ class FavoriteScreen extends StatelessWidget {
     return AppBar(
       titleSpacing: 0,
       automaticallyImplyLeading: false,
-      surfaceTintColor: AppColors.main,
-      backgroundColor: AppColors.main,
       elevation: 1.5,
       shadowColor: AppColors.layer1,
       title: Stack(
@@ -112,7 +109,6 @@ class FavoriteScreen extends StatelessWidget {
           )
         ],
       ),
-      systemOverlayStyle: lightStatusBar,
     );
   }
 

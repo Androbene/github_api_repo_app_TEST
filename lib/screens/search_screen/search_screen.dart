@@ -8,7 +8,6 @@ import '../../../themes/app_colors.dart';
 import '../../constants/app_ic.dart';
 import '../../constants/strings.dart';
 import '../../../themes/styles.dart';
-import '../../themes/overlays.dart';
 import 'bloc/history_case.dart';
 import 'bloc/search_block.dart';
 import 'bloc/search_events.dart';
@@ -23,40 +22,37 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Container(
-        color: AppColors.main,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          child: BlocBuilder<SearchBloc, SearchScreenState>(
-            bloc: _bloc,
-            builder: (BuildContext context, screenState) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  GitSearchField(
-                    onFocusedCallback: () => _bloc.add(SearchInputEvent()),
-                    onSearchCallback: (String searchString) {
-                      if (_bloc.state.currState != CurrentState.loading) {
-                        SearchHistoryCase().save(searchString);
-                        _bloc.add(
-                            SearchLoadingEvent(searchString: searchString));
-                      }
-                    },
-                    onClearCallback: () => _bloc.add(SearchClearEvent()),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: _buildResultTitleArea(),
-                  ),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: Center(child: _buildResultArea()),
-                  )
-                ],
-              );
-            },
-          ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        child: BlocBuilder<SearchBloc, SearchScreenState>(
+          bloc: _bloc,
+          builder: (BuildContext context, screenState) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                GitSearchField(
+                  onFocusedCallback: () => _bloc.add(SearchInputEvent()),
+                  onSearchCallback: (String searchString) {
+                    if (_bloc.state.currState != CurrentState.loading) {
+                      SearchHistoryCase().save(searchString);
+                      _bloc.add(
+                          SearchLoadingEvent(searchString: searchString));
+                    }
+                  },
+                  onClearCallback: () => _bloc.add(SearchClearEvent()),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: _buildResultTitleArea(),
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Center(child: _buildResultArea()),
+                )
+              ],
+            );
+          },
         ),
       ),
     );
@@ -178,8 +174,6 @@ class SearchScreen extends StatelessWidget {
     return AppBar(
       titleSpacing: 0,
       automaticallyImplyLeading: false,
-      surfaceTintColor: AppColors.main,
-      backgroundColor: AppColors.main,
       elevation: 1.5,
       shadowColor: AppColors.layer1,
       title: Stack(
@@ -196,7 +190,6 @@ class SearchScreen extends StatelessWidget {
           )
         ],
       ),
-      systemOverlayStyle: lightStatusBar,
     );
   }
 
