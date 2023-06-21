@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:github_api_repo_app/api_clients/api_client_dart_io.dart';
 import 'package:github_api_repo_app/screens/search_screen/bloc/search_events.dart';
 import 'package:github_api_repo_app/screens/search_screen/bloc/search_state.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
+import '../../../api_clients/api_client_http.dart';
 import '../../../repository/favorites_repository.dart';
 import '../../../models/git_repo.dart';
 import '../../../constants/strings.dart';
@@ -41,49 +41,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
           currState: CurrentState.error, errMsg: Strings.noInternet));
       return;
     }
-
-    try {
-      const resultsPerPage = 15;
-      final request =
-          'https://api.github.com/search/repositories?q=${event.searchString}&sort=stars&order=desc&per_page=$resultsPerPage';
-      final response = await http.get(Uri.parse(request));
-      if (response.statusCode == 200) {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        final rawDataRepos = data['items']
-            .map((item) => GitRepo(
-                  item['html_url'] as String,
-                  item['name'] as String,
-                  false,
-                ))
-            .toList();
-
-        final List<GitRepo> dataReposMappedFromStorage = [];
-        for (var raw in rawDataRepos) {
-          dataReposMappedFromStorage.add(GitRepo(
-            raw.url,
-            raw.name,
-            await FavoritesRepository().isFavourite(raw),
-          ));
-        }
-
-        if (dataReposMappedFromStorage.isEmpty) {
-          emitter(state.copyWith(
-              currState: CurrentState.negativeRes,
-              repos: dataReposMappedFromStorage));
-        } else {
-          emitter(state.copyWith(
-              currState: CurrentState.positiveRes,
-              repos: dataReposMappedFromStorage));
-        }
-      } else {
-        emitter(state.copyWith(
-            currState: CurrentState.error,
-            errMsg: "${Strings.gitServerError}: ${response.reasonPhrase}"));
-      }
-    } catch (e) {
+    final result = await ApiClientHttp().getMappedRepos(event.searchString);
+    if (result is List<GitRepo>) {
+      final currState =
+          result.isEmpty ? CurrentState.negativeRes : CurrentState.positiveRes;
+      emitter(state.copyWith(currState: currState, repos: result));
+    } else if (result is String) {
       emitter(state.copyWith(
           currState: CurrentState.error,
-          errMsg: "${Strings.gitServerError}: ${e.toString()}"));
+          errMsg: "${Strings.gitServerError}: $result"));
     }
   }
 
