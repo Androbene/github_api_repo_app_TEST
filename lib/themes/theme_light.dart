@@ -9,6 +9,9 @@ ThemeData createLightTheme() {
         backgroundColor: AppColors.main,
         surfaceTintColor: AppColors.main,
         systemOverlayStyle: lightStatusBar,
+        titleSpacing: 0,
+        elevation: 1.5,
+        shadowColor: AppColors.layer1,
       ),
       colorScheme: const ColorScheme.light(
         background: AppColors.main,

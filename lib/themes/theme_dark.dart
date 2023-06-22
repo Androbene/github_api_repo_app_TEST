@@ -9,6 +9,9 @@ ThemeData createDarkTheme() {
         backgroundColor: Colors.brown,
         surfaceTintColor: Colors.brown,
         systemOverlayStyle: darkStatusBar,
+        titleSpacing: 0,
+        elevation: 1.5,
+        shadowColor: Colors.black,
       ),
       colorScheme: const ColorScheme.dark(
         background: Colors.brown,

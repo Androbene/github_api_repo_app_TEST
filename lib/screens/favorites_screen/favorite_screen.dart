@@ -91,10 +91,7 @@ class FavoriteScreen extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      titleSpacing: 0,
       automaticallyImplyLeading: false,
-      elevation: 1.5,
-      shadowColor: AppColors.layer1,
       title: Stack(
         alignment: Alignment.center,
         children: [

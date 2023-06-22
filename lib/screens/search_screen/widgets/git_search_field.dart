@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:github_api_repo_app/constants/app_ic.dart';
+import 'package:github_api_repo_app/screens/search_screen/bloc/search_block.dart';
 
 import '../../../themes/app_colors.dart';
 import '../../../constants/strings.dart';
+import '../bloc/history_case.dart';
+import '../bloc/search_events.dart';
+import '../bloc/search_state.dart';
 
 class GitSearchField extends StatefulWidget {
-  final Function _onFocusedCallback;
-  final Function(String) _onSearchCallback;
-  final Function _onClearCallback;
-
-  const GitSearchField({
-    super.key,
-    required Function onFocusedCallback,
-    required dynamic Function(String) onSearchCallback,
-    required Function onClearCallback,
-  })  : _onClearCallback = onClearCallback,
-        _onSearchCallback = onSearchCallback,
-        _onFocusedCallback = onFocusedCallback;
+  const GitSearchField({super.key});
 
   @override
   GitSearchFieldState createState() => GitSearchFieldState();
@@ -34,7 +28,9 @@ class GitSearchFieldState extends State<GitSearchField> {
     super.initState();
     _focusNode.addListener(() {
       setState(() {
-        _focusNode.hasFocus ? {widget._onFocusedCallback()} : {};
+        _focusNode.hasFocus
+            ? BlocProvider.of<SearchBloc>(context).add(SearchInputEvent())
+            : {};
       });
     });
   }
@@ -48,6 +44,7 @@ class GitSearchFieldState extends State<GitSearchField> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<SearchBloc>(context);
     return TextFormField(
       showCursor: true,
       readOnly: false,
@@ -57,7 +54,12 @@ class GitSearchFieldState extends State<GitSearchField> {
       controller: _inputController,
       decoration: InputDecoration(
         prefixIcon: InkWell(
-          onTap: () => widget._onSearchCallback(_inputController.text),
+          onTap: () {
+            if (bloc.state.currState != CurrentState.loading) {
+              SearchHistoryCase().save(_inputController.text);
+              bloc.add(SearchLoadingEvent(searchString: _inputController.text));
+            }
+          },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SvgPicture.asset(AppIc.search),
@@ -66,7 +68,7 @@ class GitSearchFieldState extends State<GitSearchField> {
         suffixIcon: InkWell(
           onTap: () {
             _inputController.clear();
-            widget._onClearCallback();
+            bloc.add(SearchClearEvent());
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
