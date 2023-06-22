@@ -8,8 +8,6 @@ import '../bloc/search_block.dart';
 import '../bloc/search_events.dart';
 
 class FoundReposList extends StatelessWidget {
-  const FoundReposList({super.key});
-
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SearchBloc>(context);

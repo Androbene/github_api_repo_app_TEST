@@ -11,7 +11,7 @@ import '../../../themes/styles.dart';
 import 'bloc/search_block.dart';
 import 'bloc/search_state.dart';
 
-part 'texts.dart';
+part 'elements.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
@@ -63,8 +63,8 @@ class SearchScreen extends StatelessWidget {
                     CurrentState.fullHistory => const HistoryList(),
                     CurrentState.loading => cupertinoIndicator,
                     CurrentState.negativeRes => nothingWasFoundText,
-                    CurrentState.activeInput => const FoundReposList(),
-                    CurrentState.positiveRes => const FoundReposList(),
+                    CurrentState.activeInput => FoundReposList(),
+                    CurrentState.positiveRes => FoundReposList(),
                     CurrentState.error => Text(_bloc.state.errMsg),
                   }))
                 ],
