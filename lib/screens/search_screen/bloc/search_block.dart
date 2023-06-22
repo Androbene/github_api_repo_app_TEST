@@ -22,7 +22,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
     SearchInputEvent event,
     Emitter emitter,
   ) async {
-    emitter(state.copyWith(currState: CurrentState.activeInput));
+    emitter(state.copyWith(currState: SearchState.activeInput));
   }
 
   Future<void> _onSearchLoadingEvent(
@@ -33,22 +33,22 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
 
     emitter(state.copyWith(
       searchString: event.searchString,
-      currState: CurrentState.loading,
+      currState: SearchState.loading,
     ));
 
     if (!await isInternetConnected()) {
       emitter(state.copyWith(
-          currState: CurrentState.error, errMsg: Strings.noInternet));
+          currState: SearchState.error, errMsg: Strings.noInternet));
       return;
     }
     final result = await ApiClientHttp().getMappedRepos(event.searchString);
     if (result is List<GitRepo>) {
       final currState =
-          result.isEmpty ? CurrentState.negativeRes : CurrentState.positiveRes;
+          result.isEmpty ? SearchState.negativeRes : SearchState.positiveRes;
       emitter(state.copyWith(currState: currState, repos: result));
     } else if (result is String) {
       emitter(state.copyWith(
-          currState: CurrentState.error,
+          currState: SearchState.error,
           errMsg: "${Strings.gitServerError}: $result"));
     }
   }
@@ -64,7 +64,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
     // 1. change runtime favorites
     state.repos[event.index] = newValue;
     emitter(state.copyWith(
-        currState: CurrentState.positiveRes, repos: state.repos));
+        currState: SearchState.positiveRes, repos: state.repos));
 
     // 2. change persist favorites
     if (oldValIsFavorite) {
@@ -94,7 +94,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchScreenState> {
       ));
     }
     emitter(state.copyWith(
-        currState: CurrentState.positiveRes, repos: refreshedRepos));
+        currState: SearchState.positiveRes, repos: refreshedRepos));
   }
 
   @override

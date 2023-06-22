@@ -1,7 +1,7 @@
 import '../../../models/git_repo.dart';
 import 'history_case.dart';
 
-enum CurrentState {
+enum SearchState {
   emptyHistory,
   fullHistory,
   activeInput,
@@ -12,7 +12,7 @@ enum CurrentState {
 }
 
 class SearchScreenState {
-  final CurrentState currState;
+  final SearchState currState;
   final String searchString;
   final List<GitRepo> repos;
   final String errMsg;
@@ -26,8 +26,8 @@ class SearchScreenState {
 
   factory SearchScreenState.initial() {
     final initialState = SearchHistoryCase().load().isEmpty
-        ? CurrentState.emptyHistory
-        : CurrentState.fullHistory;
+        ? SearchState.emptyHistory
+        : SearchState.fullHistory;
     return SearchScreenState(
       currState: initialState,
       searchString: '',
@@ -37,7 +37,7 @@ class SearchScreenState {
   }
 
   SearchScreenState copyWith({
-    CurrentState? currState,
+    SearchState? currState,
     String? searchString,
     List<GitRepo>? repos,
     String? errMsg,

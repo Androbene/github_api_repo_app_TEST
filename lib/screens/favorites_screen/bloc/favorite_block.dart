@@ -27,7 +27,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteScreenState> {
     FavoriteEmptyEvent event,
     Emitter emitter,
   ) async {
-    emitter(state.copyWith(currState: FavourCurrentState.empty));
+    emitter(state.copyWith(currState: FavoritesState.empty));
   }
 
   Future<void> _onFavourLoadedEvent(
@@ -35,7 +35,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteScreenState> {
     Emitter emitter,
   ) async {
     emitter(state.copyWith(
-      currState: FavourCurrentState.full,
+      currState: FavoritesState.full,
       repos: event.favorites,
     ));
   }

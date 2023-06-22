@@ -38,9 +38,9 @@ class FavoriteScreen extends StatelessWidget {
             bloc: _bloc,
             builder: (BuildContext context, screenState) {
               return switch (_bloc.state.currState) {
-                FavourCurrentState.loading => cupertinoIndicator,
-                FavourCurrentState.empty => noFavoritesText,
-                FavourCurrentState.full => SavedFavoritesList()
+                FavoritesState.loading => cupertinoIndicator,
+                FavoritesState.empty => noFavoritesText,
+                FavoritesState.full => SavedFavoritesList()
               };
             }),
       ),

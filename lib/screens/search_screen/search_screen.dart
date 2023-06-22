@@ -49,23 +49,23 @@ class SearchScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
                     child: switch (_bloc.state.currState) {
-                      CurrentState.emptyHistory => searchHistoryText,
-                      CurrentState.fullHistory => searchHistoryText,
-                      CurrentState.negativeRes => whatWeHaveFoundText,
-                      CurrentState.positiveRes => whatWeHaveFoundText,
+                      SearchState.emptyHistory => searchHistoryText,
+                      SearchState.fullHistory => searchHistoryText,
+                      SearchState.negativeRes => whatWeHaveFoundText,
+                      SearchState.positiveRes => whatWeHaveFoundText,
                       _ => const Text('')
                     },
                   ),
                   Expanded(
                       child: Center(
                           child: switch (_bloc.state.currState) {
-                    CurrentState.emptyHistory => emptyHistoryText,
-                    CurrentState.fullHistory => const HistoryList(),
-                    CurrentState.loading => cupertinoIndicator,
-                    CurrentState.negativeRes => nothingWasFoundText,
-                    CurrentState.activeInput => FoundReposList(),
-                    CurrentState.positiveRes => FoundReposList(),
-                    CurrentState.error => Text(_bloc.state.errMsg),
+                    SearchState.emptyHistory => emptyHistoryText,
+                    SearchState.fullHistory => const HistoryList(),
+                    SearchState.loading => cupertinoIndicator,
+                    SearchState.negativeRes => nothingWasFoundText,
+                    SearchState.activeInput => FoundReposList(),
+                    SearchState.positiveRes => FoundReposList(),
+                    SearchState.error => Text(_bloc.state.errMsg),
                   }))
                 ],
               );

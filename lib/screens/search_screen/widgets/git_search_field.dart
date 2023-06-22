@@ -55,7 +55,7 @@ class GitSearchFieldState extends State<GitSearchField> {
       decoration: InputDecoration(
         prefixIcon: InkWell(
           onTap: () {
-            if (bloc.state.currState != CurrentState.loading) {
+            if (bloc.state.currState != SearchState.loading) {
               SearchHistoryCase().save(_inputController.text);
               bloc.add(SearchLoadingEvent(searchString: _inputController.text));
             }

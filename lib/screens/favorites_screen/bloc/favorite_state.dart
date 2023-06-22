@@ -1,9 +1,9 @@
 import 'package:github_api_repo_app/models/git_repo.dart';
 
-enum FavourCurrentState { loading, empty, full }
+enum FavoritesState { loading, empty, full }
 
 class FavoriteScreenState {
-  final FavourCurrentState currState;
+  final FavoritesState currState;
   final List<GitRepo> repos;
 
   FavoriteScreenState({
@@ -12,12 +12,12 @@ class FavoriteScreenState {
   });
 
   factory FavoriteScreenState.initial() => FavoriteScreenState(
-        currState: FavourCurrentState.loading,
+        currState: FavoritesState.loading,
         repos: [],
       );
 
   FavoriteScreenState copyWith({
-    FavourCurrentState? currState,
+    FavoritesState? currState,
     List<GitRepo>? repos,
   }) {
     return FavoriteScreenState(
